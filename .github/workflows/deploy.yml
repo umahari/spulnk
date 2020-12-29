@@ -43,12 +43,11 @@ jobs:
           tlsSkipVerify: true
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |
-            kv/data/ci/app app_secret;
             kv/data/ci/dockerUsername DOCKERHUB_USERNAME;
             kv/data/ci/dockerPassword DOCKERHUB_PASSWORD
       - name: Build Docker Image
         id: Build_Docker
-        run: docker build . --no-cache --file Dockerfile --build-arg app_secret="${{ env.APP_SECRET }}" -t shelnaop/vault_poc_repo:vault-action-exampleapp
+        run: docker build . --no-cache --file Dockerfile -t shelnaop/vault_poc_repo:vault-node_app
       - name: Login Dockerhub
         id: Login_Dockerhub
         uses: docker/login-action@v1
@@ -57,7 +56,7 @@ jobs:
           password: ${{ env.DOCKERHUB_PASSWORD }}
       - name: Push Image to Dockerhub
         id: Push_Image
-        run: docker push shelnaop/vault_poc_repo:vault-action-exampleapp
+        run: docker push shelnaop/vault_poc_repo:vault-node_app
       - uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
