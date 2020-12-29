@@ -1,0 +1,65 @@
+# .github/workflows/deploy.yaml
+name: Deploy to Google App Engine
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: GAE Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.x]
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+    steps:
+      - uses: act10ns/slack@v1
+        with:
+         status: starting
+         channel: '#project'
+         if: always()
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        id: setup_NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm Install
+        id: npm_install
+        run: npm install jest eslint --save-dev
+      - name: npm Build
+        id: npm_build
+        run: npm run build --if-present
+      - name: npm Test
+        id: npm_test
+        run: npm test
+      - name: Import Secrets
+        id: Import_vault_secret
+        uses: hashicorp/vault-action@v2.0.1 with:
+          url: http://10.128.0.4:8200
+          tlsSkipVerify: true
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+            kv/data/ci/app app_secret;
+            kv/data/ci/dockerUsername DOCKERHUB_USERNAME;
+            kv/data/ci/dockerPassword DOCKERHUB_PASSWORD
+      - name: Build Docker Image
+        id: Build_Docker
+        run: docker build . --no-cache --file Dockerfile --build-arg app_secret="${{ env.APP_SECRET }}" -t shelnaop/vault_poc_repo:vault-action-exampleapp
+      - name: Login Dockerhub
+        id: Login_Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_PASSWORD }}
+      - name: Push Image to Dockerhub
+        id: Push_Image
+        run: docker push shelnaop/vault_poc_repo:vault-action-exampleapp
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#project'
+        if: always()
