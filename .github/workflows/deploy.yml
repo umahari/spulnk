@@ -37,7 +37,8 @@ jobs:
         run: npm test
       - name: Import Secrets
         id: Import_vault_secret
-        uses: hashicorp/vault-action@v2.0.1 with:
+        uses: hashicorp/vault-action@v2.0.1 
+        with:
           url: http://10.128.0.4:8200
           tlsSkipVerify: true
           token: ${{ secrets.VAULT_TOKEN }}
