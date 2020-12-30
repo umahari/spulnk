@@ -26,9 +26,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm Install
-        id: npm_install
-        run: npm install jest eslint --save-dev
+      - name: npm Install jest
+        id: npm_install_jest
+        run: npm install jest eslint jest-unit --save-dev
       - name: npm Build
         id: npm_build
         run: npm run build --if-present
