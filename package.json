@@ -24,6 +24,6 @@
     "classNameTemplate": "{classname}-{title}",
     "titleTemplate": "{classname}-{title}",
     "ancestorSeparator": " › ",
-    "usePathForSuiteName": "true"
+    "usePathForSuiteName": "false"
   }
 }
