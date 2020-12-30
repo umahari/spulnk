@@ -6,10 +6,20 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest",
+    "pretest:ci": "npm uninstall jest babel-jest && npm install jest@$JEST_VERSION babel-jest@$JEST_VERSION --no-save",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
-    "express": "^4.16.1"
+    "express": "^4.16.1",
+    "mkdirp": "^1.0.4",
+    "strip-ansi": "^5.2.0",
+    "uuid": "^3.3.3",
+    "xml": "^1.0.1"
+  },
+  "devDependencies": {
+    "jest": "26.0.1",
+    "libxmljs": "^0.19.7"
   },
   "jest": {
     "verbose": true,
@@ -25,5 +35,11 @@
     "titleTemplate": "{classname}-{title}",
     "ancestorSeparator": " › ",
     "usePathForSuiteName": "false"
-  }
+  }, 
+  "files": [
+    "server.js",
+    "utils",
+    "constants"
+  ],
+  
 }
