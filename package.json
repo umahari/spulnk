@@ -35,11 +35,6 @@
     "titleTemplate": "{classname}-{title}",
     "ancestorSeparator": " › ",
     "usePathForSuiteName": "false"
-  }, 
-  "files": [
-    "server.js",
-    "utils",
-    "constants"
-  ],
+  }
   
 }
