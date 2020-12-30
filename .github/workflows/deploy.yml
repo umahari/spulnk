@@ -1,12 +1,12 @@
 # .github/workflows/deploy.yaml nodejs app
-name: Deploy to Google App Engine
+name: Build and Push to DockerHub
 on:
   push:
     branches:
       - main
 jobs:
   build:
-    name: GAE Deploy
+    name: VAULT DEMO PIPELINE
     runs-on: ubuntu-latest
     strategy:
       matrix:
