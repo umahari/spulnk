@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo test started"
+    "test": "jest"
   },
   "dependencies": {
     "express": "^4.16.1"
