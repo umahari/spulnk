@@ -15,6 +15,7 @@
     "verbose": true,
     "reporters": [ "default", "jest-junit" ]
   },
+  "testResultsProcessor": "jest-junit",
   "jest-junit": {
     "suiteName": "jest tests",
     "outputDirectory": ".",
