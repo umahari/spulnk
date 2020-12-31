@@ -35,8 +35,6 @@ jobs:
       - name: npm Build
         id: npm_build
         run: npm run build --if-present
-      - run: npm run-script pretest:ci
-      - run: npm run-script test:ci
       - name: npm Test
         id: npm_test
         run: npm test
