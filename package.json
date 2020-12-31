@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --ci
+    "test": "jest --ci"
   },
   "dependencies": {
     "express": "^4.16.1",
