@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --ci --reporters=default --reporters=jest-junit" 
+    "test": "jest --ci
   },
   "dependencies": {
     "express": "^4.16.1",
