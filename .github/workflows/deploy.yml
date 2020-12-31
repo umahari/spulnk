@@ -32,11 +32,11 @@ jobs:
       - name: npm Install jest-junit
         id: npm_install_jest-junit
         run: npm i jest-junit
-      - run: pretest
-      - run: test:ci
       - name: npm Build
         id: npm_build
         run: npm run build --if-present
+      - run: npm pretest:ci
+      - run: npm test:ci
       - name: npm Test
         id: npm_test
         run: npm test
