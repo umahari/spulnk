@@ -32,6 +32,8 @@ jobs:
       - name: npm Install jest-junit
         id: npm_install_jest-junit
         run: npm i jest-junit
+      - run: pretest:ci
+      - run: test:ci
       - name: npm Build
         id: npm_build
         run: npm run build --if-present
