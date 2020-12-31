@@ -6,9 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest",
-    "pretest:ci": "npm uninstall jest babel-jest && npm install jest@$JEST_VERSION babel-jest@$JEST_VERSION --no-save",
-    "test:ci": "jest --ci"
+    "test": "jest --ci --reporters=default --reporters=jest-junit" 
   },
   "dependencies": {
     "express": "^4.16.1",
@@ -18,23 +16,9 @@
     "xml": "^1.0.1"
   },
   "devDependencies": {
-    "jest": "26.0.1",
-    "libxmljs": "^0.19.7"
-  },
-  "jest": {
-    "verbose": true,
-    "reporters": [ "default", "jest-junit" ]
-  },
-  "testResultsProcessor": "jest-junit",
-  "jest-junit": {
-    "suiteName": "jest tests",
-    "outputDirectory": ".",
-    "outputName": "junit.xml",
-    "uniqueOutputName": "false",
-    "classNameTemplate": "{classname}-{title}",
-    "titleTemplate": "{classname}-{title}",
-    "ancestorSeparator": " › ",
-    "usePathForSuiteName": "false"
+    "libxmljs": "^0.19.7",
+    "jest": "^24.9.0",
+    "jest-junit": "^10.0.0"
   }
   
 }
