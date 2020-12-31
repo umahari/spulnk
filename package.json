@@ -18,6 +18,10 @@
     "libxmljs": "^0.19.7",
     "jest": "^24.9.0",
     "jest-junit": "^10.0.0"
-  }
+  },
+  "jest-junit": {
+  "outputDirectory": "test_reports",
+  "outputName": "jest-junit.xml"
+}
   
 }
