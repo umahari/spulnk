@@ -29,7 +29,7 @@ jobs:
       - name: npm Install
         id: npm_install
         run: npm install
-      - run: npm install jest-unit --save-dev
+      - run: npm i jest-unit --save-dev
       - name: npm Build
         id: npm_build
         run: npm run build --if-present
