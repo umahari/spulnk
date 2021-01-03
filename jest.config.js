@@ -3,9 +3,10 @@ module.exports = {
     '**/*.spec.js',
   ],
   reporters: [
-    'default',
-    [ 'jest-junit', {
-      outputDirectory: 'test_reports',
+    "default",
+    [ "jest-junit", 
+     "testResultsProcessor": "jest-junit",{
+      outputDirectory: '.',
       outputName: 'jest-junit.xml',
     } ]
   ]
