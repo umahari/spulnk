@@ -90,5 +90,56 @@ jobs:
         with:
           check_name: Unit Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: jest-junit.xml
-      
+          files: jest-junit.xml      
+   
+  Polaris-scan:
+    name: "Polaris Scan"
+    needs: build
+    runs-on: ubuntu-latest
+    # the build-and-test job might be skipped, we don't need to run this job then
+    if: success() || failure()
+    steps:        
+      - name: Download Polaris_CLI
+        shell: bash
+        run: wget 'https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip'
+      - name: Unzip Polaris_CLI zip file
+        shell: bash
+        run: unzip polaris_cli-linux64.zip   
+      - name: Set access as executable on Polaris_CLI and export to path
+        shell : bash
+        run: |  
+            POLARIS_BIN=$(unzip -Z -1 polaris_cli-linux64.zip | head -1)
+            chmod +x $(pwd)/${POLARIS_BIN}polaris
+            echo "$(pwd)/${POLARIS_BIN}" >> $GITHUB_PATH    
+      - name: Set Polaris_CLI env variables in file polaris.yaml
+        shell: bash
+        run: |
+         cat <<EOT >> polaris.yaml
+           version: "1"
+           project: 
+              name:  $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
+              branch: $GITHUB_REF
+              revision:
+                name: '$(git rev-parse --short "$GITHUB_SHA")'
+                date: '$(date +'%FT%TZ')'
+                modified: true
+           capture:
+              fileSystem: 
+                javascript:
+                  extensions: [js]
+                  files:
+                  - directory: ./
+                  - excludeRegex: node_modules|bower_components|vendor
+            analyze:
+              mode: central      
+            install: # Version settings for tools to use
+              coverity:
+                version: default
+      - name: Run Polaris Scan
+        shell : bash 
+        env: 
+          POLARIS_ACCESS_TOKEN: ${{inputs.POLARIS_ACCESS_TOKEN}}
+          POLARIS_SERVER_URL: ${{inputs.POLARIS_SERVER_URL}}
+        run: |     
+            polaris -c polaris.yaml capture
+            polaris -c polaris.yaml analyze -w
