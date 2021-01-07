@@ -135,6 +135,7 @@ jobs:
             install: # Version settings for tools to use
               coverity:
                 version: default
+          EOT
       - name: Run Polaris Scan
         shell : bash 
         env: 
