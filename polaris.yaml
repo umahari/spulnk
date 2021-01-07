@@ -1,20 +1,38 @@
- version: "1"
- project: 
-    name:  $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
-    branch: $GITHUB_REF
-    revision:
-        name: '$(git rev-parse --short "$GITHUB_SHA")'
-        date: '$(date +'%FT%TZ')'
-        modified: true
-    capture:
-        fileSystem: 
-            javascript:
-                extensions: [js]
-                files:
-                - directory: ./
-                - excludeRegex: node_modules|bower_components|vendor
-    analyze:
-        mode: central      
-    install: # Version settings for tools to use
-        coverity:
-            version: default
+version: "1"
+project:
+  name: ${scm.git.repo}
+  branch: ${scm.git.branch}
+  revision:
+    name: ${scm.git.commit}
+    date: ${scm.git.commit.date}
+capture:
+  fileSystem:
+    ears:
+      extensions: [ear]
+      files:
+      - directory: ${project.projectDir}
+    java:
+      files:
+      - directory: ${project.projectDir}
+    javascript:
+      files:
+      - directory: ${project.projectDir}
+      - excludeRegex: node_modules|bower_components|vendor
+    php:
+      files:
+      - directory: ${project.projectDir}
+    python:
+      files:
+      - directory: ${project.projectDir}
+    ruby:
+      files:
+      - directory: ${project.projectDir}
+    wars:
+      extensions: [war]
+      files:
+      - directory: ${project.projectDir}
+analyze:
+  mode: central
+install:
+  coverity:
+    version: default
