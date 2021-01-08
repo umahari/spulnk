@@ -99,6 +99,7 @@ jobs:
     # the build-and-test job might be skipped, we don't need to run this job then
     if: success() || failure()
     steps:        
+      - uses: actions/checkout@v2
       - name: Download Polaris_CLI
         shell: bash
         run: wget 'https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip'
