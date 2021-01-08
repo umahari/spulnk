@@ -120,4 +120,4 @@ jobs:
           POLARIS_SERVER_URL: ${{secrets.POLARIS_SERVER_URL}}
         run: |     
             chmod +x $GITHUB_WORKSPACE/polaris.yml
-            polaris --configuration-file $GITHUB_WORKSPACE/polaris.yml analyze --upload-local-config --wait
+            polaris --configuration-file $GITHUB_WORKSPACE/polaris.yml analyze --upload-local-config --wait --coverity-ignore-capture-failure
