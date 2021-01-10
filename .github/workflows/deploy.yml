@@ -111,6 +111,7 @@ jobs:
         run: |  
             POLARIS_BIN=$(unzip -Z -1 polaris_cli-linux64.zip | head -1)
             chmod +x $(pwd)/${POLARIS_BIN}polaris
+            chmod +x $GITHUB_WORKSPACE
             echo "$(pwd)/${POLARIS_BIN}" >> $GITHUB_PATH    
             
       - name: Run Polaris Scan
