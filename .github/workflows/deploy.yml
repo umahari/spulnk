@@ -93,7 +93,7 @@ jobs:
           files: jest-junit.xml      
           
           
-    check_user_permission:
+  check_user_permission:
       runs-on: ubuntu-latest
       name: A job to check user's permission level
       steps:
