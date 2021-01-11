@@ -101,7 +101,7 @@ jobs:
     steps:        
       - uses: actions/checkout@v2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}  
+          token: ${{ secrets.GITHUB_TOKEN }}  
       - name: Download Polaris_CLI
         shell: bash
         run: wget 'https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip'
