@@ -101,7 +101,9 @@ jobs:
     steps:        
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.SSH_KEY }}
+          repository: Shelna-GCP/nodeJS_CICD_POC
+          path: nodeJS_CICD_POC
+          ssh-key: ${{ secrets.GIT_SSH }}
           ssh-strict: false  
       - name: Download Polaris_CLI
         shell: bash
