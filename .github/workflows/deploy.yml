@@ -106,4 +106,4 @@ jobs:
           export POLARIS_ACCESS_TOKEN=${{ secrets.POLARIS_ACCESS_TOKEN}}
           wget -q https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip
           unzip -j polaris_cli-linux64.zip -d /tmp
-          /tmp/polaris analyze -w
+          /tmp/polaris analyze -w --coverity-ignore-capture-failure
