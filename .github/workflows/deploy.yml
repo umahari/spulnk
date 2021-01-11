@@ -123,4 +123,4 @@ jobs:
             
             echo $GITHUB_WORKSPACE
             chmod +x $GITHUB_WORKSPACE
-            polaris -c polaris.yaml analyze --wait --coverity-ignore-capture-failure
+            polaris -c polaris.yml analyze --wait --coverity-ignore-capture-failure
