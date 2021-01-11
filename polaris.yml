@@ -5,6 +5,7 @@ project:
   revision:
     name: ${scm.git.commit}
     date: ${scm.git.commit.date}
+    modified: true
 capture:
   fileSystem:
     ears:
