@@ -113,33 +113,6 @@ jobs:
             chmod +x $(pwd)/${POLARIS_BIN}polaris
             echo "$(pwd)/${POLARIS_BIN}" >> $GITHUB_PATH    
             
-            
-      - name: Set Polaris_CLI env variables in file polaris.yaml
-        shell: bash
-        run: |
-          cat <<EOT >> polaris.yaml
-            version: "1"
-            project: 
-              name:  $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
-              branch: $GITHUB_REF
-              revision:
-                name: '$(git rev-parse --short "$GITHUB_SHA")'
-                date: '$(date +'%FT%TZ')'
-                modified: true
-            capture:
-              fileSystem: 
-                javascript:
-                  extensions: [js]
-                  files:
-                  - directory: ./
-                  - excludeRegex: node_modules|bower_components|vendor
-            analyze:
-              mode: central      
-            install: # Version settings for tools to use
-              coverity:
-                version: default
-          EOT
-            
       - name: Run Polaris Scan
         shell : bash 
         env: 
@@ -147,4 +120,6 @@ jobs:
           POLARIS_SERVER_URL: ${{secrets.POLARIS_SERVER_URL}}
         run: |     
             #polaris -c polaris.yaml capture --coverity-ignore-capture-failure
+            
+            chmod +x ./nodeJS_CICD_POC
             polaris -c polaris.yaml analyze --wait --coverity-ignore-capture-failure
