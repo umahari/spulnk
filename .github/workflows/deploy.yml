@@ -99,12 +99,21 @@ jobs:
     # the build-and-test job might be skipped, we don't need to run this job then
     if: success() || failure()
     steps:        
-      - uses: actions/checkout@v2
-        with:
-          repository: Shelna-GCP/nodeJS_CICD_POC
-          path: nodeJS_CICD_POC
-          ssh-key: ${{ secrets.GIT_SSH }}
-          ssh-strict: false  
+      - uses: actions/checkout@v2  
+          
+      -   name: Setup SSH Keys and known_hosts
+          env:
+              SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+              run: |
+                  mkdir -p ~/.ssh
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
+                  ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+                  ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+      -   name: Some task that fetches dependencies
+          env:
+              SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+              run: ./fetch-deps.sh
+                  
       - name: Download Polaris_CLI
         shell: bash
         run: wget 'https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip'
