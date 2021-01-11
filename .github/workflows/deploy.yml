@@ -120,7 +120,4 @@ jobs:
           POLARIS_SERVER_URL: ${{secrets.POLARIS_SERVER_URL}}
         run: |     
             #polaris -c polaris.yaml capture --coverity-ignore-capture-failure
-            
-            echo $polaris.yml
-            chmod +x $GITHUB_REPOSITORY
             polaris -c polaris.yml analyze --wait --coverity-ignore-capture-failure
