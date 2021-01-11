@@ -100,7 +100,6 @@ jobs:
     if: success() || failure()
     steps:        
       - uses: actions/checkout@v2       
-      - uses: webfactory/ssh-agent@v0.4.1
       - name: Static Analysis with Polaris
         run: |
           export POLARIS_SERVER_URL=${{ secrets.POLARIS_SERVER_URL}}
