@@ -118,7 +118,7 @@ jobs:
         env: 
           POLARIS_ACCESS_TOKEN: ${{secrets.POLARIS_ACCESS_TOKEN}}
           POLARIS_SERVER_URL: ${{secrets.POLARIS_SERVER_URL}}
-          GITHUB_TOKEN:  ${{ secrets.GITTOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}  
         run: |     
             #polaris -c polaris.yaml capture --coverity-ignore-capture-failure
             echo $(pwd)
