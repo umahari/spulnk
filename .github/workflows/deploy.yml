@@ -121,5 +121,5 @@ jobs:
         run: |     
             #polaris -c polaris.yaml capture --coverity-ignore-capture-failure
             
-            chmod +x ./nodeJS_CICD_POC
+            chmod +x /nodeJS_CICD_POC
             polaris -c polaris.yaml analyze --wait --coverity-ignore-capture-failure
