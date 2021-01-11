@@ -101,29 +101,10 @@ jobs:
     steps:        
       - uses: actions/checkout@v2       
       - uses: webfactory/ssh-agent@v0.4.1
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  
-      - name: Download Polaris_CLI
-        shell: bash
-        run: wget 'https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip'
-      - name: Unzip Polaris_CLI zip file
-        shell: bash
-        run: unzip polaris_cli-linux64.zip   
-      - name: Set access as executable on Polaris_CLI and export to path
-        shell : bash
-        run: |  
-            POLARIS_BIN=$(unzip -Z -1 polaris_cli-linux64.zip | head -1)
-            chmod +x $(pwd)/${POLARIS_BIN}polaris
-            echo "$(pwd)/${POLARIS_BIN}" >> $GITHUB_PATH    
-            
-      - name: Run Polaris Scan
-        shell : bash 
-        env: 
-          POLARIS_ACCESS_TOKEN: ${{secrets.POLARIS_ACCESS_TOKEN}}
-          POLARIS_SERVER_URL: ${{secrets.POLARIS_SERVER_URL}}  
-        run: |     
-            #polaris -c polaris.yaml capture --coverity-ignore-capture-failure
-            echo $(pwd)
-            chmod +x $(pwd)
-            polaris -c polaris.yml analyze --wait --coverity-ignore-capture-failure
+      - name: Static Analysis with Polaris
+        run: |
+          export POLARIS_SERVER_URL=${{ secrets.POLARIS_SERVER_URL}}
+          export POLARIS_ACCESS_TOKEN=${{ secrets.POLARIS_ACCESS_TOKEN}}
+          wget -q ${{ secrets.POLARIS_SERVER_URL}}/api/tools/polaris_cli-linux64.zip
+          unzip -j polaris_cli-linux64.zip -d /tmp
+          /tmp/polaris analyze -w
