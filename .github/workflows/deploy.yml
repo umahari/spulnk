@@ -89,7 +89,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1.6
         with:
           check_name: Unit Test Results
-          github_token: ${{ secrets.GITTOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           files: jest-junit.xml      
    
   Polaris-scan:
@@ -101,7 +101,7 @@ jobs:
     steps:        
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  
+          github_token: ${{ secrets.GITTOKEN }}  
       - name: Download Polaris_CLI
         shell: bash
         run: wget 'https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip'
