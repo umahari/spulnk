@@ -9,11 +9,10 @@ project:
 capture: 
   fileSystem: 
     javascript: 
-      extensions: 
-        - [js]
+      extensions: [js]
       files: 
-        - directory: ./
-        - excludeRegex: node_modules|bower_components|vendor
+      - directory: ./
+      - excludeRegex: node_modules|bower_components|vendor
 analyze: 
   mode: central
 install: 
