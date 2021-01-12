@@ -126,9 +126,8 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           
-          chmod +x ${{  project.projectDir }}
           export POLARIS_SERVER_URL=${{ secrets.POLARIS_SERVER_URL}}
           export POLARIS_ACCESS_TOKEN=${{ secrets.POLARIS_ACCESS_TOKEN}}
           wget -q https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip
           unzip -j polaris_cli-linux64.zip -d /tmp
-          /tmp/polaris analyze -w --coverity-ignore-capture-failure
+          /tmp/polaris analyze -c polaris.yml -w --coverity-ignore-capture-failure
