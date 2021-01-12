@@ -1,7 +1,7 @@
 version: "1"
 project: 
   branch: $GITHUB_REF
-  name: $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
+  name: SHELNA-NODEJS-SCAN
   revision: 
     date: ${scm.git.commit.date}
     modified: true
