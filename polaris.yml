@@ -1,20 +1,23 @@
-version: "1"
-project:
-  name:  $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
-  branch: $GITHUB_REF
-  revision:
-    name: '$(git rev-parse --short "$GITHUB_SHA")'
-    date: '$(date +'%FT%TZ')'
-    modified: true
-capture:
-  fileSystem:
-    javascript:
-      extensions: [js]
-      files:
-      - directory: ./
-      - excludeRegex: node_modules|bower_components|vendor
-analyze:
+analyze: 
   mode: central
-install:
-  coverity:
+capture: 
+  fileSystem: 
+    javascript: 
+      extensions: 
+        - js
+      files: 
+        - 
+          directory: ./
+        - 
+          excludeRegex: node_modules|bower_components|vendor
+install: 
+  coverity: 
     version: default
+project: 
+  branch: $GITHUB_REF
+  name: "$(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')"
+  revision: 
+    date: "$(date + '%FT%TZ')"
+    modified: true
+    name: "$(git rev-parse --short \"$GITHUB_SHA\")"
+version: "1"
