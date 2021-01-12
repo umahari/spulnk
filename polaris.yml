@@ -17,7 +17,7 @@ capture:
       - directory: ${project.projectDir}
     javascript:
       files:
-      - directory: ./
+      - directory: /tmp
       - excludeRegex: node_modules|bower_components|vendor
     php:
       files:
