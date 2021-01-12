@@ -1,5 +1,11 @@
-analyze: 
-  mode: central
+version: "1"
+project: 
+  branch: $GITHUB_REF
+  name: "$(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')"
+  revision: 
+    date: ${scm.git.commit.date}
+    modified: true
+    name: "$(git rev-parse --short \"$GITHUB_SHA\")"
 capture: 
   fileSystem: 
     javascript: 
@@ -10,14 +16,8 @@ capture:
           directory: ./
         - 
           excludeRegex: node_modules|bower_components|vendor
+analyze: 
+  mode: central
 install: 
   coverity: 
     version: default
-project: 
-  branch: $GITHUB_REF
-  name: "$(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')"
-  revision: 
-    date: "$(date + '%FT%TZ')"
-    modified: true
-    name: "$(git rev-parse --short \"$GITHUB_SHA\")"
-version: "1"
