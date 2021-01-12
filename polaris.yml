@@ -1,10 +1,10 @@
 version: "1"
 project:
-  name: ${scm.git.repo}
-  branch: ${scm.git.branch}
+  name:  $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
+  branch: $GITHUB_REF
   revision:
-    name: ${scm.git.commit}
-    date: ${scm.git.commit.date}
+    name: '$(git rev-parse --short "$GITHUB_SHA")'
+    date: '$(date +'%FT%TZ')'
     modified: true
 capture:
   fileSystem:
@@ -16,6 +16,7 @@ capture:
       files:
       - directory: ${project.projectDir}
     javascript:
+      extensions: [js]
       files:
       - directory: ./
       - excludeRegex: node_modules|bower_components|vendor
