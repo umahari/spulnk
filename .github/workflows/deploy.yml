@@ -131,3 +131,16 @@ jobs:
           wget -q https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip
           unzip -j polaris_cli-linux64.zip -d /tmp
           /tmp/polaris -c polaris.yml analyze -w --coverity-ignore-capture-failure
+   
+  Blackduck-SCA:
+    name: "Blackduck SCA"
+    #needs: build
+    runs-on: ubuntu-latest
+    # the build-and-test job might be skipped, we don't need to run this job then
+    if: success() || failure()
+    steps:        
+      - uses: actions/checkout@v2
+      - name: Software Composition Analysis with Black Duck
+        uses: blackducksoftware/github-action@v2
+        with:
+          args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR"'
