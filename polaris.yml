@@ -18,4 +18,3 @@ analyze:
 install: 
   coverity: 
     version: default
-serverUrl: https://ikea.polaris.synopsys.com
