@@ -1,11 +1,11 @@
 version: "1"
 project: 
   branch: $GITHUB_REF
-  name: "$(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')"
+  name: $(echo $GITHUB_REPOSITORY | awk -F /'{print $2}')
   revision: 
     date: ${scm.git.commit.date}
     modified: true
-    name: "$(git rev-parse --short \"$GITHUB_SHA\")"
+    name: $(git rev-parse --short \"$GITHUB_SHA\")
 capture: 
   fileSystem: 
     javascript: 
