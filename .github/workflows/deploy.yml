@@ -140,6 +140,7 @@ jobs:
     if: success() || failure()
     steps:        
       - uses: actions/checkout@v2
+      - run: npm install
       - name: Software Composition Analysis with Black Duck
         uses: blackducksoftware/github-action@v2
         with:
