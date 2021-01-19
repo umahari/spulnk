@@ -43,10 +43,12 @@ jobs:
           name: Unit Test Results
           path: jest-junit.xml
       - name: Download Artifacts
+        if: always()
         uses: actions/download-artifact@v2
         with:
           path: artifacts
       - name: Publish Unit Test Results
+        if: always()
         uses: EnricoMi/publish-unit-test-result-action@v1.6
         with:
           check_name: Unit Test Results
