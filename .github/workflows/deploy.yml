@@ -36,6 +36,7 @@ jobs:
       - name: npm Test
         id: npm_test
         run: npm test
+        continue-on-error: true
       - name: Upload Unit Test Results
         if: always()
         uses: actions/upload-artifact@v2
