@@ -46,7 +46,7 @@ jobs:
         uses: google-github-actions/upload-cloud-storage@main
         with:
           credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: /lint-result.json
+          path: ./lint-result.json
           destination: eslint_report 
         
       - id: upload-file
