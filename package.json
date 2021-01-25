@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --ci --reporters=jest-junit",
-    "lint": "eslint src --format json --output-file /report/lint-result.json"
+    "lint": "eslint ./ --format json --output-file /report/lint-result.json"
   },
   "dependencies": {
     "express": "^4.16.1",
@@ -18,7 +18,8 @@
   "devDependencies": {
     "libxmljs": "^0.19.7",
     "jest": "^24.9.0",
-    "jest-junit": "^10.0.0"
+    "jest-junit": "^10.0.0",
+    "eslint": "^7.17.0"
   },
   "jest-junit": {
   "outputName": "jest-junit.xml"
