@@ -5,8 +5,8 @@
   "author": "First Last <first.last@example.com>",
   "main": "server.js",
   "scripts": {
-    "test": "jest --ci --reporters=jest-junit"
-     "lint": "eslint src --format json --output-file lint-result.json"
+    "test": "jest --ci --reporters=jest-junit",
+    "lint": "eslint src --format json --output-file lint-result.json"
   },
   "dependencies": {
     "express": "^4.16.1",
