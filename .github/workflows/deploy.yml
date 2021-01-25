@@ -37,6 +37,14 @@ jobs:
         id: npm_test
         run: npm test
         continue-on-error: true
+        
+      - id: upload-file
+        uses: google-github-actions/upload-cloud-storage@main
+        with:
+          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+          path: jest-junit.xml
+          destination: unittestreports
+            
       - name: Upload Unit Test Results
         if: always()
         uses: actions/upload-artifact@v2
