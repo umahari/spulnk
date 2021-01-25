@@ -16,10 +16,11 @@
     "xml": "^1.0.1"
   },
   "devDependencies": {
-    "libxmljs": "^0.19.7",
     "jest": "^24.9.0",
     "jest-junit": "^10.0.0",
-    "eslint": "^7.17.0"
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   },
   "jest-junit": {
   "outputName": "jest-junit.xml"
