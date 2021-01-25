@@ -29,7 +29,7 @@ jobs:
       - name: npm Install
         id: npm_install
         run: npm install
-      - run: yarn add --dev jest-junit
+     # - run: yarn add --dev jest-junit
       - name: npm Build
         id: npm_build
         run: npm run build --if-present
@@ -46,7 +46,7 @@ jobs:
         uses: google-github-actions/upload-cloud-storage@main
         with:
           credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: /report/lint-result.json
+          path: lint-result.json
           destination: eslint_report 
         
       - id: upload-file
