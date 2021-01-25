@@ -153,4 +153,4 @@ jobs:
         with:
           credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
           path: /home/runner/work/nodeJS_CICD_POC/nodeJS_CICD_POC/docker_web_app_0_0_1_BlackDuck_RiskReport.pdf
-          destination: sast_report  
+          destination: testsplunk  
