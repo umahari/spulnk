@@ -38,6 +38,11 @@ jobs:
         run: npm test
         continue-on-error: true
         
+      - id: lint
+        name: Linting
+        run: npm run lint
+        continue-on-error: true
+        
       - id: upload-file
         uses: google-github-actions/upload-cloud-storage@main
         with:
