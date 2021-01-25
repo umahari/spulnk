@@ -152,5 +152,5 @@ jobs:
         uses: google-github-actions/upload-cloud-storage@main
         with:
           credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: blackduck/runs/
+          path: /home/runner/blackduck/runs/
           destination: sast_report  
