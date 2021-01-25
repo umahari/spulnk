@@ -147,3 +147,10 @@ jobs:
         uses: blackducksoftware/github-action@v2
         with:
           args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR" --logging.level.com.synopsys.integration="DEBUG" --detect.policy.check.fail.on.severities=ALL'
+          
+      - id: upload-file
+        uses: google-github-actions/upload-cloud-storage@main
+        with:
+          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+          path: blackduck/runs/
+          destination: sast_report  
