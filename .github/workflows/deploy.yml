@@ -150,7 +150,7 @@ jobs:
         uses: google-github-actions/upload-cloud-storage@main
         with:
           credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: /tmp/output
+          path: /home/runner/work/nodeJS_CICD_POC/nodeJS_CICD_POC/.synopsys/polaris/cli-scan.json
           destination: testsplunk
    
   Blackduck-SCA:
