@@ -29,11 +29,6 @@ jobs:
         id: npm_test
         run: npm test
         continue-on-error: true
-        
-      - id: lint
-        name: Linting
-        run: npm run lint
-        continue-on-error: true
 
       - name: Upload Unit Test Results
         if: always()
@@ -52,7 +47,15 @@ jobs:
         with:
           check_name: Unit Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: jest-junit.xml   
+          files: jest-junit.xml  
+  lint:            
+    name: "Linting"
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm run lint
+    continue-on-error: true 
 
   Polaris-scan:
     name: "Polaris Scan"
