@@ -115,5 +115,5 @@ jobs:
         with:
           # CONCLUSION: ${{ needs.deploy.result }}
           GITHUB_API_KEY: ${{ github.token }}
-          JUNIT_REPORT: jest-junit.xml
+          JUNIT_REPORT: ${{ jest-junit.xml }}
           # SPLUNK_API_KEY: ${{ secrets.SPLUNK_API_KEY }}
