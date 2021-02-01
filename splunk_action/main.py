@@ -39,7 +39,12 @@ def collect_build_data():
     print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
     artifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}/artifacts", headers=header)
     print (artifactresponse.json())
-                                 
+                      
+    print("--------------------------------------------DELETE ARTIFACTS--------------------------------------------------------------")  
+    for i in allartifactresponse.json()['artifacts']:
+        id = i['id']
+        run_data = requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}}", headers=header).json()
+        
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
     build_status = CONCLUSION
     branch = run_data["head_branch"]
