@@ -28,10 +28,15 @@ def collect_build_data():
 
     #rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
 
-    print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
+    
     print("----------------------------------------------------------------------------------------------------------")
           # https://api.github.com//repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}
         # /repos/{owner}/{repo}/actions/artifacts
+    allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
+    print (allartifactresponse.json())
+    print("----------------------------------------------------------------------------------------------------------")
+    
+    print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
     artifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}/artifacts", headers=header)
     print (artifactresponse.json())
                                  
