@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   build:
-    name: VAULT DEMO PIPELINE
+    name: Build & Test
     runs-on: ubuntu-latest
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
@@ -56,7 +56,7 @@ jobs:
 
   Polaris-scan:
     name: "Polaris Scan"
-    #needs: build
+    needs: build
     runs-on: ubuntu-latest
     # the build-and-test job might be skipped, we don't need to run this job then
     if: success() || failure()
@@ -77,7 +77,7 @@ jobs:
    
   Blackduck-SCA:
     name: "Blackduck SCA"
-    # needs: build
+    needs: build
     runs-on: ubuntu-16.04
     # the build-and-test job might be skipped, we don't need to run this job then
     if: success() || failure()
