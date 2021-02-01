@@ -101,6 +101,7 @@ jobs:
         
   Splunk-Report:
     name: "Splunk Reporting"
+    needs: [Polaris-scan,Blackduck-SCA,lint]
     runs-on: ubuntu-latest
     if: always()
     steps:
