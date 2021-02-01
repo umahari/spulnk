@@ -1,34 +1,23 @@
-name: Download custom Release Asset
-description: Download Asset from a Github release
+name: 'Splunk Metrics Action'
+description: 'Send metrics to Splunk'
+author: 'Customer Web'
 inputs:
-  repository:
-    description: owner/repository
-    required: false
-    default: ""
-  release:
-    description: version of the release
-    required: false
-    default: "latest"
-  asset_name:
-    description: name of the file in the release to download
+  CONCLUSION:
+    description: 'The result of the workflow (success/cancelled/failure)'
+    default: 'UNKNOWN'
     required: true
-  github_token:
-    description: Github access token to the repository
+  GITHUB_API_KEY:
+    description: 'GitHub token used to access to current repo through the API'
     required: true
-    default: ""
-
-outputs:
-  result:
-    description: The state of the action, if the file could be downloaded successfully
-
+  SPLUNK_API_KEY:
+    description: 'Splunk token used to access Splunk API'
+    required: true
+  SPLUNK_INDEX:
+    description: 'Splunk Index (test-env: icf_web_pub)'
+    default: 'icf_web'
+  SPLUNK_SOURCE:
+    description: 'Splunk Source (test-env: icf_web_test)'
+    default: 'icf_web_deploy'
 runs:
-  using: docker
-  image: Dockerfile
-  args:
-    - ${{ inputs.repository }}
-    - ${{ inputs.release }}
-    - ${{ inputs.asset_name }}
-    - ${{ inputs.github_token }}
-branding:
-  icon: "download-cloud"
-  color: "blue"
+  using: 'docker'
+  image: 'Dockerfile'
