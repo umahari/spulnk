@@ -14,7 +14,7 @@ GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
 GITHUB_RUN_ID = os.environ["GITHUB_RUN_ID"]
 GITHUB_API_URL = os.environ["GITHUB_API_URL"]
 
-JUNIT_REPORT = os.environ["JUNIT_REPORT"]
+JUNIT_REPORT = os.environ["INPUT_JUNIT_REPORT"]
 
 header = {"Accept": "application/vnd.github.groot-preview+json",
     "Authorization": f"token {GITHUB_API_KEY}"}
