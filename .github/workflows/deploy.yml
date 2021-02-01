@@ -41,21 +41,22 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: artifacts
-      - name: Publish Unit Test Results
-        if: always()
-        uses: EnricoMi/publish-unit-test-result-action@v1.6
-        with:
-          check_name: Unit Test Results
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: jest-junit.xml  
+ 
   lint:            
     name: "Linting"
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true 
     steps:
       - uses: actions/checkout@v2
       - run: npm run lint
-    continue-on-error: true 
+    
+      - name: Upload Lint Report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: Lint Results
+          path: lint-result.json
 
   Polaris-scan:
     name: "Polaris Scan"
@@ -75,9 +76,15 @@ jobs:
           wget -q https://ikea.polaris.synopsys.com/api/tools/polaris_cli-linux64.zip
           unzip -j polaris_cli-linux64.zip -d /tmp
           mkdir /tmp/output
-          /tmp/polaris -c polaris.yml analyze -w --coverity-ignore-capture-failure | tee /tmp/output/polaris-output_${GITHUB_SHA}.txt
+          /tmp/polaris -c polaris.yml analyze -w --coverity-ignore-capture-failure | tee /tmp/output/polaris-output.txt
 
-   
+      - name: Polaris Report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: Polaris Results
+          path: /tmp/output/polaris-output.txt
+          
   Blackduck-SCA:
     name: "Blackduck SCA"
     needs: build
