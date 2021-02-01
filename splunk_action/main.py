@@ -22,6 +22,7 @@ def get_timestamp(date_time, template='%Y-%m-%dT%H:%M:%SZ'):
     return timestamp
 
 def collect_build_data():
+    print("Collecting Build Data ... ")
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
     build_status = CONCLUSION
     branch = run_data["head_branch"]
