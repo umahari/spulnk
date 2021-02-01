@@ -14,6 +14,8 @@ GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
 GITHUB_RUN_ID = os.environ["GITHUB_RUN_ID"]
 GITHUB_API_URL = os.environ["GITHUB_API_URL"]
 
+JUNIT_REPORT = os.environ["JUNIT_REPORT"]
+
 header = {"Accept": "application/vnd.github.groot-preview+json",
     "Authorization": f"token {GITHUB_API_KEY}"}
 
@@ -23,6 +25,8 @@ def get_timestamp(date_time, template='%Y-%m-%dT%H:%M:%SZ'):
 
 def collect_build_data():
     print("Collecting Build Data ... ")
+    print("JUNIT result : ", JUNIT_REPORT)
+    
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
     build_status = CONCLUSION
     branch = run_data["head_branch"]
