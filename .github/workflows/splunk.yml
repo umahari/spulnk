@@ -12,15 +12,8 @@ jobs:
         runs-on: ubuntu-latest
         if: always()
         steps:
-          - uses: actions/checkout@v2
-          - name: Download Artifacts
-            if: always()
-            uses: actions/download-artifact@v2
-            with:
-              path: artifacts
           - uses: ./splunk_action/
             with:
               # CONCLUSION: ${{ needs.deploy.result }}
               GITHUB_API_KEY: ${{ github.token }}
-              JUNIT_REPORT: jest-junit.xml
               # SPLUNK_API_KEY: ${{ secrets.SPLUNK_API_KEY }}
