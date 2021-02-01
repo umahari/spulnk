@@ -26,8 +26,9 @@ def get_timestamp(date_time, template='%Y-%m-%dT%H:%M:%SZ'):
 def collect_build_data():
     print("Collecting Build Data ... ")
     
-    print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
-    rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
+    print(f"{GITHUB_API_URL}_apis/pipelines/workflows/{GITHUB_RUN_ID}/artifacts")
+    #rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
+    rundata = requests.get(f"{GITHUB_API_URL}_apis/pipelines/workflows/{GITHUB_RUN_ID}/artifacts", headers=header)
     print (rundata.json())
     print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
     print("----------------------------------------------------------------------------------------------------------")
