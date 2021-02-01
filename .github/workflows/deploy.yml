@@ -8,24 +8,16 @@ jobs:
   build:
     name: VAULT DEMO PIPELINE
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [13.x]
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
     steps:
-      - uses: act10ns/slack@v1
-        with:
-         status: starting
-         channel: '#project'
-         if: always()
+
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 13.12
         id: setup_NodeJS
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 13.12
       - name: npm Install
         id: npm_install
         run: npm install
@@ -42,20 +34,7 @@ jobs:
         name: Linting
         run: npm run lint
         continue-on-error: true
-      - id: upload-eslint-file
-        uses: google-github-actions/upload-cloud-storage@main
-        with:
-          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: lint-result.json
-          destination: eslint_report 
-        
-      - id: upload-file
-        uses: google-github-actions/upload-cloud-storage@main
-        with:
-          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: jest-junit.xml
-          destination: unittestreports
-            
+
       - name: Upload Unit Test Results
         if: always()
         uses: actions/upload-artifact@v2
@@ -74,57 +53,7 @@ jobs:
           check_name: Unit Test Results
           github_token: ${{ secrets.GITHUB_TOKEN }}
           files: jest-junit.xml   
-          
-      - name: Import Secrets
-        id: Import_vault_secret
-        uses: hashicorp/vault-action@v2.0.1 
-        with:
-          url: http://34.69.137.61:8200
-          tlsSkipVerify: true
-          token: ${{ secrets.VAULT_TOKEN }}
-          secrets: |
-            kv/data/ci/dockerUsername DOCKERHUB_USERNAME;
-            kv/data/ci/dockerPassword DOCKERHUB_PASSWORD
-      - name: Build Docker Image
-        id: Build_Docker
-        run: docker build . --no-cache --file Dockerfile -t shelnaop/vault_poc_repo:vault-node_app
-      - name: Login Dockerhub
-        id: Login_Dockerhub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ env.DOCKERHUB_USERNAME }}
-          password: ${{ env.DOCKERHUB_PASSWORD }}
-      - name: Push Image to Dockerhub
-        id: Push_Image
-        run: docker push shelnaop/vault_poc_repo:vault-node_app
-      - uses: act10ns/slack@v1
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#project'
-        if: always()
-          
-          
-  check_user_permission:
-      runs-on: ubuntu-latest
-      name: A job to check user's permission level
-      steps:
-      # Check for write permission
-        - name: Check user permission
-          id: check
-          uses: scherermichael-oss/action-has-permission@master
-          with:
-            required-permission: write
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Use the output from the `check` step
-        - name: Run only if user has sufficient permissions
-          if: steps.check.outputs.has-permission
-          run: echo "Congratulations! Your permissions to access the repository are sufficient."
-        - name: Run only if user has NOT sufficient permissions
-          if: "! steps.check.outputs.has-permission"
-          run: echo "Sorry! Your permissions are insufficient."  
-   
+
   Polaris-scan:
     name: "Polaris Scan"
     #needs: build
@@ -145,13 +74,6 @@ jobs:
           mkdir /tmp/output
           /tmp/polaris -c polaris.yml analyze -w --coverity-ignore-capture-failure | tee /tmp/output/polaris-output_${GITHUB_SHA}.txt
 
-      #Upload the polaris scan results to gcp cloud storage bucket
-      - id: upload-file
-        uses: google-github-actions/upload-cloud-storage@main
-        with:
-          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: /home/runner/work/nodeJS_CICD_POC/nodeJS_CICD_POC/.synopsys/polaris/cli-scan.json
-          destination: testsplunk
    
   Blackduck-SCA:
     name: "Blackduck SCA"
@@ -165,11 +87,4 @@ jobs:
       - name: Software Composition Analysis with Black Duck
         uses: blackducksoftware/github-action@v2
         with:
-          args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR" --logging.level.com.synopsys.integration="DEBUG" --detect.risk.report.pdf=true --detect.cleanup=false'
-          
-      - id: upload-file
-        uses: google-github-actions/upload-cloud-storage@main
-        with:
-          credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-          path: /home/runner/work/nodeJS_CICD_POC/nodeJS_CICD_POC/docker_web_app_0_0_1_BlackDuck_RiskReport.pdf
-          destination: blackduckreport  
+          args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR" --logging.level.com.synopsys.integration="DEBUG"'
