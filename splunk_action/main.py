@@ -26,6 +26,8 @@ def get_timestamp(date_time, template='%Y-%m-%dT%H:%M:%SZ'):
 def collect_build_data():
     print("Collecting Build Data ... ")
     print("JUNIT result : ", JUNIT_REPORT)
+    with open(JUNIT_REPORT , 'r+') as jreport:
+        print(jreport.read())
     
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
     build_status = CONCLUSION
