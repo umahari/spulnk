@@ -34,7 +34,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: Unit Test Results
+          name: Unit Test Results Splunk
           path: jest-junit.xml
       - name: Download Artifacts
         if: always()
@@ -55,7 +55,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: ESLint Results
+          name: ESLint Results Splunk
           path: lint-result.json
 
   Polaris-scan:
@@ -82,7 +82,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: Polaris SAST Results
+          name: Polaris SAST Results Splunk
           path: /tmp/output/polaris-output.txt
           
   Blackduck-SCA:
