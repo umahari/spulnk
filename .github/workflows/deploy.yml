@@ -49,8 +49,8 @@ jobs:
     continue-on-error: true 
     steps:
       - uses: actions/checkout@v2
-      - run: npm run lint
-    
+      - run: npm install
+      - run: npm run lint    
       - name: Upload Lint Report
         if: always()
         uses: actions/upload-artifact@v2
