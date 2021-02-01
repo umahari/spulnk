@@ -105,6 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - uses: actions/checkout@v2
       - name: Download Artifacts
         if: always()
         uses: actions/download-artifact@v2
