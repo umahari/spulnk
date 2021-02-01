@@ -20,7 +20,6 @@ inputs:
     default: 'icf_web_deploy'
   JUNIT_REPORT:
     description: 'Junit report'
-    default: ""
 runs:
   using: 'docker'
   image: 'Dockerfile'
