@@ -78,11 +78,11 @@ jobs:
           mkdir /tmp/output
           /tmp/polaris -c polaris.yml analyze -w --coverity-ignore-capture-failure | tee /tmp/output/polaris-output.txt
 
-      - name: Polaris Report
+      - name: Polaris SAST Report
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: Polaris Results
+          name: Polaris SAST Results
           path: /tmp/output/polaris-output.txt
           
   Blackduck-SCA:
