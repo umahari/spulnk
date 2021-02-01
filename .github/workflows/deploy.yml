@@ -98,3 +98,20 @@ jobs:
         uses: blackducksoftware/github-action@v2
         with:
           args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR" --logging.level.com.synopsys.integration="DEBUG"'
+        
+  Splunk-Report:
+    name: "Splunk Reporting"
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Download Artifacts
+        if: always()
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+      - uses: ./splunk_action/
+        with:
+          # CONCLUSION: ${{ needs.deploy.result }}
+          GITHUB_API_KEY: ${{ github.token }}
+          JUNIT_REPORT: jest-junit.xml
+          # SPLUNK_API_KEY: ${{ secrets.SPLUNK_API_KEY }}
