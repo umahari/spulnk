@@ -55,7 +55,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: Lint Results
+          name: ESLint Results
           path: lint-result.json
 
   Polaris-scan:
