@@ -41,10 +41,11 @@ def collect_build_data():
     for i in allartifactresponseJson['artifacts']:
         id = i['id']
         downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
-        requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
+        print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip")
+        #requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
     
     print(os.listdir())
-    with zipfile.ZipFile('artifacts', 'r') as zip_ref:
+    with zipfile.ZipFile('artifacts/', 'r') as zip_ref:
         zip_ref.extractall()
     
     
