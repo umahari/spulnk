@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Code Coverage Splunk
-          path: coverage-summary.json   
+          path: coverage/coverage-summary.json   
 #       - name: Download Artifacts
 #         if: always()
 #         uses: actions/download-artifact@v2
