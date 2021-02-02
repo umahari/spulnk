@@ -44,8 +44,8 @@ def collect_build_data():
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
     
     print(os.listdir())
-    with zipfile.ZipFile('/artifacts/Unit Test Results Splunk', 'r') as zip_ref:
-        zip_ref.extractall('Unit Test Results Splunk')
+    with zipfile.ZipFile('artifacts', 'r') as zip_ref:
+        zip_ref.extractall()
     
     
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
