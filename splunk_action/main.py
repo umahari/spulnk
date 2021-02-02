@@ -27,34 +27,7 @@ def get_timestamp(date_time, template='%Y-%m-%dT%H:%M:%SZ'):
 
 def collect_build_data():
     print("Collecting Build Data ... ")
-
-    #rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
-
-    
-    print("----------------------------------------------------------------------------------------------------------")
-
-    allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
-    allartifactresponseJson = allartifactresponse.json()
-    print(allartifactresponseJson)
-
-    print("--------------------------------------------DELETE ARTIFACTS--------------------------------------------------------------")  
-    
-    for i in allartifactresponseJson['artifacts']:
-        id = i['id']
-        downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
-        downloadfromurl = requests.get(downloadartifact.url)
-        z = zipfile.ZipFile(io.BytesIO(downloadfromurl.content))
-        z.extractall()
-        
-        #print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip")
-        requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
-    
-    with open('polaris-output.txt','r+') as fobj:
-        x = fobj.read()
-
-    print(x)
-    
-    
+ 
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
     build_status = CONCLUSION
     branch = run_data["head_branch"]
@@ -86,8 +59,44 @@ def collect_build_data():
         "changeSets": commits_list,
         "customParameters": {}
     }
+    process_reports(build_data)
 
+    
+
+def process_reports(build_data):
+    
+    #rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
+
+    allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
+    allartifactresponseJson = allartifactresponse.json()
+    print(allartifactresponseJson)
+ 
+    
+    for i in allartifactresponseJson['artifacts']:
+        id = i['id']
+        #download artifats
+        downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
+        downloadfromurl = requests.get(downloadartifact.url)
+        z = zipfile.ZipFile(io.BytesIO(downloadfromurl.content))
+        z.extractall()
+        
+        #delete artifacts
+        requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
+      
+    polarisJson = process_polaris_report('polaris-output.txt' , build_data)
+    print(polarisJson)
+    
     post_to_splunk(build_data, build_timestamp)
+
+    
+def process_polaris_report(file_name , reportJson):
+    with open(filename , 'r+') as fobj:
+        contents = fobj.read()
+    linenum = contents.find('Job issue summary\n')
+    jsondata = eval(contents[linenum+len('Job issue summary\n'):])
+    reportJson['customParameters'] = {'polarisReport':jsondata}
+    return reportJson
+
 
 def post_to_splunk(json_data, timestamp):
 
