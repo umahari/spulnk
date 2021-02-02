@@ -45,7 +45,7 @@ def collect_build_data():
     
     for i in allartifactresponseJson['artifacts']:
         id = i['id']
-        downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/ARCHIVE_FORMAT", headers=header)
+        downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
         print(downloadartifact)
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
     ##################################################################################################################################
