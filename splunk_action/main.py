@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 import urllib3
 import zipfile
+import io
 
 CONCLUSION = os.environ["INPUT_CONCLUSION"]
 GITHUB_API_KEY = os.environ["INPUT_GITHUB_API_KEY"]
@@ -15,7 +16,7 @@ GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
 GITHUB_RUN_ID = os.environ["GITHUB_RUN_ID"]
 GITHUB_API_URL = os.environ["GITHUB_API_URL"]
 
-JUNIT_REPORT = os.environ["INPUT_JUNIT_REPORT"]
+#JUNIT_REPORT = os.environ["INPUT_JUNIT_REPORT"]
 
 header = {"Accept": "application/vnd.github.groot-preview+json",
     "Authorization": f"token {GITHUB_API_KEY}"}
@@ -41,12 +42,17 @@ def collect_build_data():
     for i in allartifactresponseJson['artifacts']:
         id = i['id']
         downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
-        print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip")
+        downloadfromurl = requests.get(downloadartifact.url)
+        z = zipfile.ZipFile(io.BytesIO(downloadfromurl.content))
+        z.extractall()
+        
+        #print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip")
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
     
-    print(os.listdir())
-    with zipfile.ZipFile('artifacts/', 'r') as zip_ref:
-        zip_ref.extractall()
+    with open('polaris-output.txt','r+') as fobj:
+        x = fobj.read()
+
+    print(x)
     
     
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
