@@ -2,6 +2,7 @@ import requests
 import os
 from datetime import datetime
 import urllib3
+import zipfile
 
 CONCLUSION = os.environ["INPUT_CONCLUSION"]
 GITHUB_API_KEY = os.environ["INPUT_GITHUB_API_KEY"]
@@ -30,25 +31,20 @@ def collect_build_data():
 
     
     print("----------------------------------------------------------------------------------------------------------")
-          # https://api.github.com//repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}
-        # /repos/{owner}/{repo}/actions/artifacts
+
     allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
     allartifactresponseJson = allartifactresponse.json()
     print(allartifactresponseJson)
-    
-#     print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
-#     artifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}/artifacts", headers=header)
-#     print (artifactresponse.json())
 
-                    
     print("--------------------------------------------DELETE ARTIFACTS--------------------------------------------------------------")  
     
     for i in allartifactresponseJson['artifacts']:
         id = i['id']
         downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
-        print(downloadartifact)
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
-    ##################################################################################################################################
+    
+    with zipfile.ZipFile('Unit Test Results Splunk', 'r') as zip_ref:
+        zip_ref.extractall('Unit Test Results Splunk')
     
     
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
