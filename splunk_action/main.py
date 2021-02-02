@@ -59,8 +59,8 @@ def collect_build_data():
         "changeSets": commits_list,
         "customParameters": {}
     }
-    process_reports(build_data)
-
+    build_data = process_reports(build_data)
+    post_to_splunk(build_data, build_timestamp)
     
 
 def process_reports(build_data):
@@ -85,8 +85,7 @@ def process_reports(build_data):
       
     polarisJson = process_polaris_report('polaris-output.txt' , build_data)
     print(polarisJson)
-    
-    post_to_splunk(build_data, build_timestamp)
+    return polarisJson
 
     
 def process_polaris_report(file_name , reportJson):
