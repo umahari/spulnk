@@ -43,7 +43,7 @@ def collect_build_data():
         downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
     
-    with zipfile.ZipFile('Unit Test Results Splunk.zip', 'r') as zip_ref:
+    with zipfile.ZipFile('artifacts/Unit Test Results Splunk.zip', 'r') as zip_ref:
         zip_ref.extractall('Unit Test Results Splunk')
     
     
