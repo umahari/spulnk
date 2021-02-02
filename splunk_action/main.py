@@ -4,6 +4,7 @@ from datetime import datetime
 import urllib3
 import zipfile
 import io
+import json
 
 CONCLUSION = os.environ["INPUT_CONCLUSION"]
 GITHUB_API_KEY = os.environ["INPUT_GITHUB_API_KEY"]
@@ -84,9 +85,9 @@ def process_reports(build_data):
             requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
 
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
-        process_code_coverage('coverage-summary.json')
-        print(polarisJson)
-        return polarisJson
+        codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
+        print(codecoverageJson)
+        return codecoverageJson
 
     
 def process_polaris_report(file_name , reportJson):
@@ -98,12 +99,14 @@ def process_polaris_report(file_name , reportJson):
     return reportJson
 
 
-def process_code_coverage(file_name):
-    with open(file_name , 'r+') as fobj:
-        contents = fobj.read()
-    print(contents)
+def process_code_coverage(file_name, coverageJson):
+    with open(file_name,'r') as f:
+        data = json.load(f)
+    codecov = data['total']
+    coverageJson['customParameters'] = {'codeCoverage':codecov}
+    return coverageJson
 
-    
+
 def post_to_splunk(json_data, timestamp):
 
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
