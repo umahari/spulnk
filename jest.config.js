@@ -4,12 +4,7 @@ module.exports = {
   ],
   collectCoverage: true,
   collectCoverageFrom: ['**/*.js'],
-  coveragePathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-    '<rootDir>/lib/',
-    '<rootDir>/build/',
-    '<rootDir>/dist/'
-  ],
+  
   reporters: [
     "default",
     [ "jest-junit", 
