@@ -84,6 +84,7 @@ def process_reports(build_data):
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
       
     polarisJson = process_polaris_report('polaris-output.txt' , build_data)
+    process_code_coverage('jest-junit.xml')
     print(polarisJson)
     return polarisJson
 
@@ -97,6 +98,12 @@ def process_polaris_report(file_name , reportJson):
     return reportJson
 
 
+def process_code_coverage(file_name):
+    with open(file_name , 'r+') as fobj:
+        contents = fobj.read()
+    print(contents)
+
+    
 def post_to_splunk(json_data, timestamp):
 
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
