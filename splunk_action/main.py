@@ -33,20 +33,26 @@ def collect_build_data():
           # https://api.github.com//repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}
         # /repos/{owner}/{repo}/actions/artifacts
     allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
-    print (allartifactresponse.json())
-    print("----------------------------------------------------------------------------------------------------------")
-    
-    print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
-    artifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}/artifacts", headers=header)
-    print (artifactresponse.json())
-                      
-    print("--------------------------------------------DELETE ARTIFACTS--------------------------------------------------------------")  
     allartifactresponseJson = allartifactresponse.json()
+    print(allartifactresponseJson)
+    
+    print("-------------------------------------------DOWNLOAD ARTIFACTS---------------------------------------------------------------")
+    
+#     print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
+#     artifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}/artifacts", headers=header)
+#     print (artifactresponse.json())
+
+                    
+    print("--------------------------------------------DELETE ARTIFACTS--------------------------------------------------------------")  
+    
     for i in allartifactresponseJson['artifacts']:
         id = i['id']
-        print(id)
+        downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/ARCHIVE_FORMAT", headers=header)
+        print(downloadartifact)
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
-        
+    ##################################################################################################################################
+    
+    
     run_data = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header).json()
     build_status = CONCLUSION
     branch = run_data["head_branch"]
