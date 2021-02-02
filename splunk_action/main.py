@@ -36,8 +36,6 @@ def collect_build_data():
     allartifactresponseJson = allartifactresponse.json()
     print(allartifactresponseJson)
     
-    print("-------------------------------------------DOWNLOAD ARTIFACTS---------------------------------------------------------------")
-    
 #     print(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}")
 #     artifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}/artifacts", headers=header)
 #     print (artifactresponse.json())
