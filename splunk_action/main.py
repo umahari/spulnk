@@ -71,22 +71,22 @@ def process_reports(build_data):
     allartifactresponseJson = allartifactresponse.json()
     print(allartifactresponseJson)
  
-    
-    for i in allartifactresponseJson['artifacts']:
-        id = i['id']
-        #download artifats
-        downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
-        downloadfromurl = requests.get(downloadartifact.url)
-        z = zipfile.ZipFile(io.BytesIO(downloadfromurl.content))
-        z.extractall()
-        
-        #delete artifacts
-        requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
-      
-    polarisJson = process_polaris_report('polaris-output.txt' , build_data)
-    process_code_coverage('jest-junit.xml')
-    print(polarisJson)
-    return polarisJson
+    if allartifactresponseJson['total_count'] > 0:
+        for i in allartifactresponseJson['artifacts']:
+            id = i['id']
+            #download artifats
+            downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
+            downloadfromurl = requests.get(downloadartifact.url)
+            z = zipfile.ZipFile(io.BytesIO(downloadfromurl.content))
+            z.extractall()
+
+            #delete artifacts
+            requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
+
+        polarisJson = process_polaris_report('polaris-output.txt' , build_data)
+        process_code_coverage('jest-junit.xml')
+        print(polarisJson)
+        return polarisJson
 
     
 def process_polaris_report(file_name , reportJson):
