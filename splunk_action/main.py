@@ -90,7 +90,7 @@ def process_reports(build_data):
 
     
 def process_polaris_report(file_name , reportJson):
-    with open(filename , 'r+') as fobj:
+    with open(file_name , 'r+') as fobj:
         contents = fobj.read()
     linenum = contents.find('Job issue summary\n')
     jsondata = eval(contents[linenum+len('Job issue summary\n'):])
