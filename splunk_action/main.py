@@ -41,11 +41,10 @@ def collect_build_data():
     for i in allartifactresponseJson['artifacts']:
         id = i['id']
         downloadartifact = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}/zip", headers=header)
-        print(downloadartifact.json())
         requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
     
     print(os.listdir())
-    with zipfile.ZipFile('/home/runner/work/CICD_Prototype/CICD_Prototype/artifacts/Unit Test Results Splunk', 'r') as zip_ref:
+    with zipfile.ZipFile('/artifacts/Unit Test Results Splunk', 'r') as zip_ref:
         zip_ref.extractall('Unit Test Results Splunk')
     
     
