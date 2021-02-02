@@ -5,7 +5,7 @@
   "author": "First Last <first.last@example.com>",
   "main": "server.js",
   "scripts": {
-    "test": "jest --coverage --coverageReporters=json-summary --outputFile=coverage-summary.json --ci --reporters=jest-junit",
+    "test": "jest --coverage --coverageReporters=text-summary --ci --reporters=jest-junit",
     "lint": "eslint ./ --format json --output-file lint-result.json"
   },
   "dependencies": {
