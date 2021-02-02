@@ -2,6 +2,7 @@ module.exports = {
   testMatch: [
     '**/*.spec.js',
   ],
+  collectCoverage: true,
   reporters: [
     "default",
     [ "jest-junit", 
