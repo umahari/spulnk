@@ -17,6 +17,7 @@ SPLUNK_SOURCE =  os.environ["INPUT_SPLUNK_SOURCE"]
 
 BLACKDUCK_API_KEY = os.environ["INPUT_BLACKDUCK_API_KEY"]
 BLACKDUCK_URL = os.environ["INPUT_BLACKDUCK_URL"]
+BLACKDUCK_PROJECT_NAME = os.environ["INPUT_BLACKDUCK_PROJECT_NAME"]
 
 GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
 GITHUB_RUN_ID = os.environ["GITHUB_RUN_ID"]
@@ -111,14 +112,15 @@ def process_code_coverage(file_name, coverageJson):
     return coverageJson
 
 
-def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , reportJson):
+def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , BLACKDUCK_PROJECT_NAME, reportJson):
     
-    apiToken = "ZGE0MTcxZjAtNTAyZC00ZTY3LTk4MTgtMmRjNGQxNzljNmY2OmI2NGZkODQ3LTU1YWYtNDA2Yy05NzZmLTAyZTNiNDFjOTFjMw=="
-    urlbase = "https://ingka.app.blackduck.com"
+    #apiToken = "ZGE0MTcxZjAtNTAyZC00ZTY3LTk4MTgtMmRjNGQxNzljNmY2OmI2NGZkODQ3LTU1YWYtNDA2Yy05NzZmLTAyZTNiNDFjOTFjMw=="
+    #urlbase = "https://ingka.app.blackduck.com"
     riskUrl = ''
     hub = HubInstance(urlbase, api_token=apiToken, insecure=True)
 
-    projects = hub.get_project_by_name('docker_web_app')
+    #'docker_web_app'
+    projects = hub.get_project_by_name(BLACKDUCK_PROJECT_NAME)
     projectVersions = hub.get_project_versions(project=projects)
 
     for j in projectVersions['items'][0]['_meta']['links']:
