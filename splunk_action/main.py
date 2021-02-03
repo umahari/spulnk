@@ -91,7 +91,7 @@ def process_reports(build_data):
 
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
         codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
-        blackduckJson = process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , codecoverageJson)
+        blackduckJson = process_blackduck_report(codecoverageJson)
         return blackduckJson
 
     
@@ -112,20 +112,20 @@ def process_code_coverage(file_name, coverageJson):
     return coverageJson
 
 
-def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , BLACKDUCK_PROJECT_NAME, reportJson):
+def process_blackduck_report(reportJson):
     
     #apiToken = "ZGE0MTcxZjAtNTAyZC00ZTY3LTk4MTgtMmRjNGQxNzljNmY2OmI2NGZkODQ3LTU1YWYtNDA2Yy05NzZmLTAyZTNiNDFjOTFjMw=="
     #urlbase = "https://ingka.app.blackduck.com"
     riskUrl = ''
-    hub = HubInstance(urlbase, api_token=apiToken, insecure=True)
+    hub = HubInstance(BLACKDUCK_URL, api_token=BLACKDUCK_API_KEY, insecure=True)
 
     #'docker_web_app'
     projects = hub.get_project_by_name(BLACKDUCK_PROJECT_NAME)
     projectVersions = hub.get_project_versions(project=projects)
 
-    for j in projectVersions['items'][0]['_meta']['links']:
-        if j['rel'] == 'riskProfile':
-            riskUrl = j['href']
+    for item in projectVersions['items'][0]['_meta']['links']:
+        if item['rel'] == 'riskProfile':
+            riskUrl = item['href']
 
     riskData = hub.execute_get(url=riskUrl)
     vulnerableData = riskData.json()['categories']['VULNERABILITY']
