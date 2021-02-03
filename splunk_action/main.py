@@ -91,7 +91,7 @@ def process_reports(build_data):
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
         codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
         blackduckJson = process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , codecoverageJson)
-        print(blackduckJson)
+        #print(blackduckJson)
         return blackduckJson
 
     
