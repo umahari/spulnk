@@ -15,11 +15,15 @@ inputs:
   SPLUNK_INDEX:
     description: 'Splunk Index (test-env: icf_web_pub)'
     default: 'icf_web'
-  SPLUNK_SOURCE:
+  SPLUNK_SOURCE:BLACKDUCK_URL:
     description: 'Splunk Source (test-env: icf_web_test)'
     default: 'icf_web_deploy'
-  JUNIT_REPORT:
-    description: 'Junit report'
+  BLACKDUCK_API_KEY:
+    description: 'Blackduck API Token'
+    default: ''
+  BLACKDUCK_URL:
+    description: 'Blackduck URL'
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
