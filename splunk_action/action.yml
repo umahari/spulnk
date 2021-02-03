@@ -16,10 +16,10 @@ inputs:
     description: 'Splunk URL'
     required: true
   SPLUNK_INDEX:
-    description: 'Splunk Index (test-env: icf_web_pub)'
+    description: 'Splunk Index'
     default: 'app_index'
   SPLUNK_SOURCE:
-    description: 'Splunk Source (test-env: icf_web_test)'
+    description: 'Splunk Source'
     default: 'app_source'
   BLACKDUCK_API_KEY:
     description: 'Blackduck API Token'
