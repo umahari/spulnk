@@ -21,6 +21,6 @@ jobs:
               BLACKDUCK_URL: ${{ secrets.BLACKDUCK_URL }}
               BLACKDUCK_PROJECT_NAME: docker_web_app   
               SPLUNK_API_KEY: ${{ secrets.SPLUNK_API_KEY }}
-              SPLUNK_INDEX: app_report
+              SPLUNK_INDEX: app_index
               SPLUNK_SOURCE: app_source
               SPLUNK_URL: ${{ secrets.SPLUNK_URL }} 
