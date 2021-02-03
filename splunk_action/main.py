@@ -89,11 +89,8 @@ def process_reports(build_data):
             requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
 
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
-        print('----------------------------------------- Polaris Report :',polarisJson)
         codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
-        print('-------------------------------------------codecoverageJson :',codecoverageJson)
         blackduckJson = process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , codecoverageJson)
-        print('-------------------------------------------blackduck report :',blackduckJson)
         return blackduckJson
 
     
@@ -102,7 +99,7 @@ def process_polaris_report(file_name , reportJson):
         contents = fobj.read()
     linenum = contents.find('Job issue summary\n')
     jsondata = eval(contents[linenum+len('Job issue summary\n'):])
-    reportJson['customParameters'] = {'polarisReport':jsondata}
+    reportJson['customParameters']['polarisReport'] = jsondata
     return reportJson
 
 
@@ -110,7 +107,7 @@ def process_code_coverage(file_name, coverageJson):
     with open(file_name,'r') as f:
         data = json.load(f)
     codecov = data['total']
-    coverageJson['customParameters'] = {'codeCoverage':codecov}
+    coverageJson['customParameters']['codeCoverage'] = codecov
     return coverageJson
 
 
@@ -130,7 +127,7 @@ def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , reportJson):
 
     riskData = hub.execute_get(url=riskUrl)
     vulnerableData = riskData.json()['categories']['VULNERABILITY']
-    reportJson['customParameters'] = {'blackduckReport':vulnerableData}
+    reportJson['customParameters']['blackduckReport'] = vulnerableData
     return reportJson
 
     
