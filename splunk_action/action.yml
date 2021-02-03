@@ -15,7 +15,7 @@ inputs:
   SPLUNK_INDEX:
     description: 'Splunk Index (test-env: icf_web_pub)'
     default: 'icf_web'
-  SPLUNK_SOURCE:BLACKDUCK_URL:
+  SPLUNK_SOURCE:
     description: 'Splunk Source (test-env: icf_web_test)'
     default: 'icf_web_deploy'
   BLACKDUCK_API_KEY:
