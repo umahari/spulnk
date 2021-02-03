@@ -24,6 +24,9 @@ inputs:
   BLACKDUCK_URL:
     description: 'Blackduck URL'
     default: ''
+  BLACKDUCK_PROJECT_NAME:
+    description: 'Blackduck Project name'
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
