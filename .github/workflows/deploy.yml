@@ -1,5 +1,5 @@
 # .github/workflows/deploy.yaml nodejs app
-name: Build and Push to DockerHub
+name: CI - Build Test and SCAN
 on:
   push:
     branches:
