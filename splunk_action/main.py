@@ -89,9 +89,11 @@ def process_reports(build_data):
             requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
 
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
+        print('----------------------------------------- Polaris Report :',polarisJson)
         codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
+        print('-------------------------------------------codecoverageJson :',codecoverageJson)
         blackduckJson = process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , codecoverageJson)
-        #print(blackduckJson)
+        print('-------------------------------------------blackduck report :',blackduckJson)
         return blackduckJson
 
     
