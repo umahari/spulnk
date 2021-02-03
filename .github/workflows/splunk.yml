@@ -1,7 +1,7 @@
 name: Splunk Reporting
 on:
   workflow_run:
-    workflows: ["Build and Push to DockerHub"]
+    workflows: ["CI - Build Test and SCAN"]
     branches: [main]
     types: 
       - completed
