@@ -14,6 +14,7 @@ GITHUB_API_KEY = os.environ["INPUT_GITHUB_API_KEY"]
 SPLUNK_API_KEY = os.environ["INPUT_SPLUNK_API_KEY"]
 SPLUNK_INDEX = os.environ["INPUT_SPLUNK_INDEX"]
 SPLUNK_SOURCE =  os.environ["INPUT_SPLUNK_SOURCE"]
+SPLUNK_URL = os.environ["INPUT_SPLUNK_URL"]
 
 BLACKDUCK_API_KEY = os.environ["INPUT_BLACKDUCK_API_KEY"]
 BLACKDUCK_URL = os.environ["INPUT_BLACKDUCK_URL"]
@@ -72,10 +73,9 @@ def collect_build_data():
 
 def process_reports(build_data):
     
-    #rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
     allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
     allartifactresponseJson = allartifactresponse.json()
-    print(allartifactresponseJson)
+    #print(allartifactresponseJson)
  
     if allartifactresponseJson['total_count'] > 0:
         for i in allartifactresponseJson['artifacts']:
@@ -114,8 +114,6 @@ def process_code_coverage(file_name, coverageJson):
 
 def process_blackduck_report(reportJson):
     
-    #apiToken = "ZGE0MTcxZjAtNTAyZC00ZTY3LTk4MTgtMmRjNGQxNzljNmY2OmI2NGZkODQ3LTU1YWYtNDA2Yy05NzZmLTAyZTNiNDFjOTFjMw=="
-    #urlbase = "https://ingka.app.blackduck.com"
     riskUrl = ''
     hub = HubInstance(BLACKDUCK_URL, api_token=BLACKDUCK_API_KEY, insecure=True)
 
@@ -151,7 +149,7 @@ def post_to_splunk(json_data, timestamp):
     }
 
     print(payload)
-    result = requests.post("https://evcgcpsplunk.ikea.net/services/collector/event", headers=header, json=payload, verify=False)
+    result = requests.post(SPLUNK_URL, headers=header, json=payload, verify=False)
     print("Calling Splunk")
     print(result.text)
 
