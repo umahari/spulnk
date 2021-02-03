@@ -5,6 +5,8 @@ import urllib3
 import zipfile
 import io
 import json
+from blackduck.HubRestApi import HubInstance
+
 
 CONCLUSION = os.environ["INPUT_CONCLUSION"]
 GITHUB_API_KEY = os.environ["INPUT_GITHUB_API_KEY"]
@@ -12,6 +14,9 @@ GITHUB_API_KEY = os.environ["INPUT_GITHUB_API_KEY"]
 SPLUNK_API_KEY = os.environ["INPUT_SPLUNK_API_KEY"]
 SPLUNK_INDEX = os.environ["INPUT_SPLUNK_INDEX"]
 SPLUNK_SOURCE =  os.environ["INPUT_SPLUNK_SOURCE"]
+
+BLACKDUCK_API_KEY = os.environ["INPUT_BLACKDUCK_API_KEY"]
+BLACKDUCK_URL = os.environ["INPUT_BLACKDUCK_URL"]
 
 GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
 GITHUB_RUN_ID = os.environ["GITHUB_RUN_ID"]
@@ -86,8 +91,9 @@ def process_reports(build_data):
 
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
         codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
-        print(codecoverageJson)
-        return codecoverageJson
+        blackduckJson = process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , codecoverageJson)
+        print(blackduckJson)
+        return blackduckJson
 
     
 def process_polaris_report(file_name , reportJson):
@@ -106,7 +112,28 @@ def process_code_coverage(file_name, coverageJson):
     coverageJson['customParameters'] = {'codeCoverage':codecov}
     return coverageJson
 
+def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , reportJson):
+    
+    apiToken = "ZGE0MTcxZjAtNTAyZC00ZTY3LTk4MTgtMmRjNGQxNzljNmY2OmI2NGZkODQ3LTU1YWYtNDA2Yy05NzZmLTAyZTNiNDFjOTFjMw=="
+    urlbase = "https://ingka.app.blackduck.com"
+    riskUrl = ''
+    hub = HubInstance(urlbase, api_token=apiToken, insecure=True)
 
+    projects = hub.get_project_by_name('docker_web_app')
+    projectVersions = hub.get_project_versions(project=projects)
+
+    for j in projectVersions['items'][0]['_meta']['links']:
+        if j['rel'] == 'riskProfile':
+            riskUrl = j['href']
+
+    riskData = hub.execute_get(url=riskUrl)
+    vulnerableData = riskData.json()['categories']['VULNERABILITY']
+    reportJson['customParameters'] = {'blackduckReport':vulnerableData}
+    return reportJson
+    
+
+print(vulnerableData)
+    
 def post_to_splunk(json_data, timestamp):
 
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
