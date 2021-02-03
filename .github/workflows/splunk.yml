@@ -17,4 +17,7 @@ jobs:
             with:
               # CONCLUSION: ${{ needs.deploy.result }}
               GITHUB_API_KEY: ${{ github.token }}
+              BLACKDUCK_API_KEY: ${{ secrets.BLACKDUCK_API_TOKEN }}  
+              BLACKDUCK_URL: ${{ secrets.BLACKDUCK_URL }}
+              BLACKDUCK_PROJECT_NAME: docker_web_app   
               # SPLUNK_API_KEY: ${{ secrets.SPLUNK_API_KEY }}
