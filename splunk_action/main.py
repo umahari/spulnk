@@ -72,7 +72,6 @@ def collect_build_data():
 def process_reports(build_data):
     
     #rundata = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/runs/{GITHUB_RUN_ID}", headers=header)
-
     allartifactresponse = requests.get(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts", headers=header)
     allartifactresponseJson = allartifactresponse.json()
     print(allartifactresponseJson)
@@ -112,6 +111,7 @@ def process_code_coverage(file_name, coverageJson):
     coverageJson['customParameters'] = {'codeCoverage':codecov}
     return coverageJson
 
+
 def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , reportJson):
     
     apiToken = "ZGE0MTcxZjAtNTAyZC00ZTY3LTk4MTgtMmRjNGQxNzljNmY2OmI2NGZkODQ3LTU1YWYtNDA2Yy05NzZmLTAyZTNiNDFjOTFjMw=="
@@ -130,9 +130,7 @@ def process_blackduck_report(BLACKDUCK_API_KEY , BLACKDUCK_URL , reportJson):
     vulnerableData = riskData.json()['categories']['VULNERABILITY']
     reportJson['customParameters'] = {'blackduckReport':vulnerableData}
     return reportJson
-    
 
-print(vulnerableData)
     
 def post_to_splunk(json_data, timestamp):
 
