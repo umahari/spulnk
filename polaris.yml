@@ -1,7 +1,7 @@
 version: "1"
 project: 
   branch: ${scm.git.branch}
-  name: SHELNA-SAST-REPORT
+  name: SAST-REPORT
   revision: 
     date: ${scm.git.commit.date}
     modified: true
