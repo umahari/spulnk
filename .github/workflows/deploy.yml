@@ -91,19 +91,19 @@ jobs:
           name: Polaris SAST Results Splunk
           path: /tmp/output/polaris-output.txt
           
-#   Blackduck-SCA:
-#     name: "Blackduck SCA"
-#     needs: build
-#     runs-on: ubuntu-16.04
-#     # the build-and-test job might be skipped, we don't need to run this job then
-#     if: success() || failure()
-#     steps:        
-#       - uses: actions/checkout@v2
-#       - run: npm install
-#       - name: Software Composition Analysis with Black Duck
-#         uses: blackducksoftware/github-action@v2
-#         with:
-#           args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR" --logging.level.com.synopsys.integration="DEBUG"'
+  Blackduck-SCA:
+    name: "Blackduck SCA"
+    needs: build
+    runs-on: ubuntu-16.04
+    # the build-and-test job might be skipped, we don't need to run this job then
+    if: success() || failure()
+    steps:        
+      - uses: actions/checkout@v2
+      - run: npm install
+      - name: Software Composition Analysis with Black Duck
+        uses: blackducksoftware/github-action@v2
+        with:
+          args: '--blackduck.url="${{ secrets.BLACKDUCK_URL}}" --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN}}" --detect.tools="DETECTOR" --logging.level.com.synopsys.integration="DEBUG"'
         
 #   Splunk-Report:
 #     name: "Splunk Reporting"
