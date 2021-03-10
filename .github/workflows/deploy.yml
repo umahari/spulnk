@@ -88,7 +88,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: Polaris SAST Results Splunk
+          name: Polaris SAST Results Splunk =="${{ github.head_ref }}-${{ github.sha }}-${{ github. run\_id }}"
           path: /tmp/output/polaris-output.txt
           
   Blackduck-SCA:
