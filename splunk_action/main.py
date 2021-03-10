@@ -87,7 +87,7 @@ def process_reports(build_data):
             z.extractall()
 
             #delete artifacts
-            requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
+            #requests.delete(f"{GITHUB_API_URL}/repos/{GITHUB_REPOSITORY}/actions/artifacts/{id}", headers=header)
 
         polarisJson = process_polaris_report('polaris-output.txt' , build_data)
         codecoverageJson = process_code_coverage('coverage-summary.json',polarisJson)
