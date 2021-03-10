@@ -40,7 +40,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: Code Coverage Splunk
+          name: Code Coverage Splunk = ${{ github.run_id }}-${{github.head_ref}}
           path: coverage/coverage-summary.json   
 #       - name: Download Artifacts
 #         if: always()
@@ -61,7 +61,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: ESLint Results Splunk
+          name: ESLint Results Splunk = ${{ github.run_id }}-${{github.head_ref}}
           path: lint-result.json
 
   Polaris-scan:
