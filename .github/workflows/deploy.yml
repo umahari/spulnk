@@ -1,7 +1,7 @@
 # .github/workflows/deploy.yaml nodejs app
 name: CI - Build Test and SCAN
 on:
-  pull_request:
+  push:
     branches:
       - main
 jobs:
